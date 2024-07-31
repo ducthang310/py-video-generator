@@ -1,0 +1,6 @@
+opencv-python
+numpy
+moviepy
+psycopg2-binary
+boto3
+python-dotenv

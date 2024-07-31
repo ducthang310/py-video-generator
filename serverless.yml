@@ -1,0 +1,59 @@
+service: video-generator
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-python-requirements
+  - serverless-lift
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  environment:
+    DB_HOST: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_HOST}
+    DB_NAME: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_NAME}
+    DB_USER: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_USER}
+    DB_PASSWORD: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_PASSWORD}
+    S3_BUCKET_NAME: ${ssm:/shiroad/api/${self:custom.stage}/AWS_S3_BUCKET_ASSETS}
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  pythonRequirements:
+    dockerizePip: false
+    zip: true
+    slim: true
+    useDownloadCache: true
+    useStaticCache: true
+    pythonBin: python
+    noDeploy:
+      - pytest
+
+constructs:
+  shiroad-video:
+    type: queue
+    worker:
+      name: shiroad-video-${self:provider.stage}
+      handler: src/main.lambda_handler
+      timeout: 900
+#      reservedConcurrency: 20
+      memorySize: 2056
+    batchSize: 10
+    maxBatchingWindow: 2
+    extensions:
+      queue:
+        Properties:
+          QueueName: shiroad-video-${self:provider.stage}
+
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - cache/**
+    - test/**
+    - .git/**
+    - .github/**
+  include:
+    - src/**
+    - requirements.txt
