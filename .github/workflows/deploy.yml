@@ -15,7 +15,7 @@ jobs:
       - name: Get environment from event
         id: environment
         run: |
-          if [[ "${{github.base_ref}}" == "master" || "${{github.ref}}" == "refs/heads/main" ]]; then
+          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
             echo "stage=dev" >> $GITHUB_OUTPUT
           fi
           
@@ -45,6 +45,13 @@ jobs:
           npm install
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Debug environment
+        run: |
+          echo "Stage: ${{ steps.environment.outputs.stage }}"
+          echo "All GitHub context:"
+          echo '${{ toJson(github) }}'
+
 
       - name: Create Serverless package
         uses: serverless/github-action@v3.2
