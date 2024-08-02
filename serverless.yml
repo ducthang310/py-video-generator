@@ -20,7 +20,7 @@ provider:
 custom:
   stage: ${opt:stage, 'dev'}
   pythonRequirements:
-    dockerizePip: false
+    dockerizePip: true
     zip: true
     slim: true
     useDownloadCache: true
