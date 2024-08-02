@@ -33,7 +33,7 @@ constructs:
   shiroad-video:
     type: queue
     worker:
-      name: shiroad-video-${self:provider.stage}
+      name: shiroad-video-${self:custom.stage}
       handler: src/main.lambda_handler
       timeout: 900
 #      reservedConcurrency: 20
@@ -43,7 +43,7 @@ constructs:
     extensions:
       queue:
         Properties:
-          QueueName: shiroad-video-${self:provider.stage}
+          QueueName: shiroad-video-${self:custom.stage}
 
 package:
   individually: true
