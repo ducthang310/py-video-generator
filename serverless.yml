@@ -17,10 +17,6 @@ provider:
     DB_PASSWORD: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_PASSWORD}
     S3_BUCKET_NAME: ${ssm:/shiroad/api/${self:custom.stage}/AWS_S3_BUCKET_ASSETS}
 
-layers:
-  ffmpeg:
-    path: lambda-layer
-
 custom:
   stage: ${opt:stage, 'dev'}
   pythonRequirements:
@@ -50,7 +46,7 @@ constructs:
 #      reservedConcurrency: 20
       memorySize: 2056
       layers:
-        - { Ref: FfmpegLambdaLayer }
+        - arn:aws:lambda:us-east-1:767397968725:layer:python-ffmpeg:3
     batchSize: 10
     maxBatchingWindow: 2
     extensions:
@@ -66,4 +62,3 @@ package:
     - test/**
     - .git/**
     - .github/**
-    - lambda-layer/**
