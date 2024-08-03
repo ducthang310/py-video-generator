@@ -20,14 +20,12 @@ provider:
 custom:
   stage: ${opt:stage, 'dev'}
   pythonRequirements:
-    dockerizePip: true
+    dockerizePip: false
     zip: true
     slim: true
+    stripPackages: false
     useDownloadCache: true
     useStaticCache: true
-    pythonBin: python
-    noDeploy:
-      - pytest
 
 constructs:
   shiroad-video:
