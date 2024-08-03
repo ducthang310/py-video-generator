@@ -66,3 +66,4 @@ package:
     - test/**
     - .git/**
     - .github/**
+    - lambda-layer/**
