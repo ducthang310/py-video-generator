@@ -8,7 +8,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: python3.11
+  runtime: python3.10
   region: us-east-1
   environment:
     DB_HOST: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_HOST}
