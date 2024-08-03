@@ -49,8 +49,8 @@ constructs:
       timeout: 900
 #      reservedConcurrency: 20
       memorySize: 2056
-#      layers:
-#        - { Ref: FfmpegLambdaLayer }
+      layers:
+        - { Ref: FfmpegLambdaLayer }
     batchSize: 10
     maxBatchingWindow: 2
     extensions:
