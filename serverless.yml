@@ -17,6 +17,10 @@ provider:
     DB_PASSWORD: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_PASSWORD}
     S3_BUCKET_NAME: ${ssm:/shiroad/api/${self:custom.stage}/AWS_S3_BUCKET_ASSETS}
 
+layers:
+  ffmpeg:
+    path: lambda-layer
+
 custom:
   stage: ${opt:stage, 'dev'}
   pythonRequirements:
@@ -45,6 +49,8 @@ constructs:
       timeout: 900
 #      reservedConcurrency: 20
       memorySize: 2056
+      layers:
+        - { Ref: FfmpegLambdaLayer }
     batchSize: 10
     maxBatchingWindow: 2
     extensions:
