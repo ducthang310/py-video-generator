@@ -8,7 +8,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: python3.8
+  runtime: python3.11
   region: us-east-1
   environment:
     DB_HOST: ${ssm:/shiroad/api/${self:custom.stage}/DATABASE_HOST}
@@ -20,12 +20,21 @@ provider:
 custom:
   stage: ${opt:stage, 'dev'}
   pythonRequirements:
-    dockerizePip: false
+    dockerizePip: true
     zip: true
     slim: true
     stripPackages: false
     useDownloadCache: true
     useStaticCache: true
+    noDeploy:
+      - boto3
+      - botocore
+      - docutils
+      - jmespath
+      - pip
+      - s3transfer
+      - setuptools
+      - six
 
 constructs:
   shiroad-video:
@@ -51,6 +60,3 @@ package:
     - test/**
     - .git/**
     - .github/**
-  include:
-    - src/**
-    - requirements.txt
