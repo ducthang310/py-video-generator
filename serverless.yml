@@ -20,6 +20,9 @@ provider:
 custom:
   stage: ${opt:stage, 'dev'}
   pythonRequirements:
+    layer:
+      compatibleRuntimes:
+        - python3.10
     dockerizePip: false
     zip: true
     slim: true
@@ -46,6 +49,7 @@ constructs:
 #      reservedConcurrency: 20
       memorySize: 2056
       layers:
+        - Ref: PythonRequirementsLambdaLayer
         - arn:aws:lambda:us-east-1:767397968725:layer:python-ffmpeg:3
     batchSize: 10
     maxBatchingWindow: 2
