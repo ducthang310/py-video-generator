@@ -1,3 +1,8 @@
+try:
+  import unzip_requirements
+except ImportError:
+  pass
+
 from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip
 from image_processing import generate_video_from_images
 from video_processing import extract_subvideo
