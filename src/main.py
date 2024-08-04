@@ -65,10 +65,10 @@ def process_sqs_message(message):
         return
 
     try:
-        media_items = get_account_media(account_id, year)
+        # media_items = get_account_media(account_id, year)
         # process_user_media(account_id, year, media_items)
         logger.info(f"Successfully processed video for account {account_id} and year {year}")
-        logger.info(f"media items", media_items)
+        logger.info(f"----message", message)
     except Exception as e:
         logger.error(f"Error processing video for account {account_id} and year {year}: {str(e)}")
 

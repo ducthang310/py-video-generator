@@ -31,6 +31,6 @@ jobs:
           aws-region: us-east-1
 
       - name: Run build and push script
-        run: ./bash.sh
+        run: ./script/bash.sh
         env:
           STAGE: ${{ steps.environment.outputs.stage }}
