@@ -23,24 +23,24 @@ def upload_file_to_s3(local_path, bucket_name, object_key):
     s3.upload_file(local_path, bucket_name, object_key)
 
 
-def upload_spotlight_and_cleanup(local_path, bucket_name, object_key, temp_files):
+def upload_video_and_cleanup(local_path, bucket_name, object_key, temp_files):
     """
-    Upload the spotlight video to S3 and delete local files.
+    Upload the video to S3 and delete local files.
 
-    :param local_path: Path to the local spotlight video file
+    :param local_path: Path to the local video file
     :param bucket_name: S3 bucket name
     :param object_key: S3 object key for the uploaded file
     :param temp_files: List of temporary files to be deleted
-    :return: S3 URL of the uploaded spotlight video
+    :return: S3 URL of the uploaded video
     """
     try:
-        # Upload the spotlight video to S3
+        # Upload the video to S3
         upload_file_to_s3(local_path, bucket_name, object_key)
 
         # Generate the S3 URL for the uploaded file
         s3_url = f"https://{bucket_name}.s3.amazonaws.com/{object_key}"
 
-        # Delete the local spotlight video file
+        # Delete the local video file
         os.remove(local_path)
 
         # Delete temporary files
@@ -50,5 +50,5 @@ def upload_spotlight_and_cleanup(local_path, bucket_name, object_key, temp_files
 
         return s3_url
     except Exception as e:
-        print(f"Error uploading spotlight video and cleaning up: {str(e)}")
+        print(f"Error uploading video and cleaning up: {str(e)}")
         raise

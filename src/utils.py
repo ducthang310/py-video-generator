@@ -28,5 +28,5 @@ def create_temp_folder(folder_path):
 
 # Example usage
 if __name__ == "__main__":
-    new_folder_path = create_temp_folder("spotlights/account-123")
+    new_folder_path = create_temp_folder("videos/account-123")
     print(f"Folder path: {new_folder_path}")
