@@ -32,4 +32,5 @@ jobs:
 
       - name: Run build and push script
         run: ./bash.sh
-        STAGE: ${{ steps.environment.outputs.stage }}
+        env:
+          STAGE: ${{ steps.environment.outputs.stage }}
