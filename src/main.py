@@ -79,18 +79,35 @@ if __name__ == "__main__":
     sqs = boto3.client('sqs')
     queue_url = os.getenv('SQS_QUEUE_URL')
 
+    empty_receives = 0
+    max_empty_receives = 3  # Adjust this value as needed
+
     while True:
         response = sqs.receive_message(
             QueueUrl=queue_url,
-            MaxNumberOfMessages=1,
+            MaxNumberOfMessages=3,  # Process up to 10 messages at a time
             WaitTimeSeconds=20
         )
 
         messages = response.get('Messages', [])
 
-        for message in messages:
-            process_sqs_message(message['Body'])
-            sqs.delete_message(
-                QueueUrl=queue_url,
-                ReceiptHandle=message['ReceiptHandle']
-            )
+        if not messages:
+            empty_receives += 1
+            print(f"No messages received. Empty receive count: {empty_receives}")
+            if empty_receives >= max_empty_receives:
+                print(f"Reached {max_empty_receives} empty receives. Exiting.")
+                break
+        else:
+            empty_receives = 0  # Reset the counter when messages are received
+
+            for message in messages:
+                try:
+                    process_sqs_message(message['Body'])
+                    sqs.delete_message(
+                        QueueUrl=queue_url,
+                        ReceiptHandle=message['ReceiptHandle']
+                    )
+                except Exception as e:
+                    print(f"Error processing message: {str(e)}")
+
+        time.sleep(1)  # Short pause between polling to avoid excessive API calls
