@@ -30,6 +30,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Make script executable
+        run: chmod +x ./script/bash.sh
+
       - name: Run build and push script
         run: ./script/bash.sh
         env:
